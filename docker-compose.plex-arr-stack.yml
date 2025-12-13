@@ -122,6 +122,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
       - WEBUI_PORT=8085
+      - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
     volumes:
       - qbittorrent-config:/config
       - /volume1/Media/downloads:/downloads
