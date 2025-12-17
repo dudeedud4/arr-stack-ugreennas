@@ -11,7 +11,7 @@
 | Radarr | http://HOST_IP:7878 |
 | Prowlarr | http://HOST_IP:9696 |
 | Bazarr | http://HOST_IP:6767 |
-| Pi-hole | http://HOST_IP/admin |
+| Pi-hole | http://HOST_IP:8081/admin |
 
 **Optional utilities** (deploy with `docker-compose.utilities.yml`):
 

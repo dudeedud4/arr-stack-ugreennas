@@ -80,7 +80,7 @@ Ask Claude to help deploy the stack - it reads [`.claude/instructions.md`](.clau
 | **Radarr** | Movie library management | 7878 |
 | **Prowlarr** | Search aggregator | 9696 |
 | **Bazarr** | Subtitle management | 6767 |
-| **Pi-hole** | DNS + Ad-blocking | 53, 80 |
+| **Pi-hole** | DNS + Ad-blocking | 53, 8081 |
 | **FlareSolverr** | CAPTCHA solver | 8191 |
 
 > **Don't need all these?** Remove any service by deleting its section from the compose file. Core dependency: Gluetun (VPN gateway).

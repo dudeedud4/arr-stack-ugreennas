@@ -233,6 +233,7 @@ services:
     ports:
       - "${NAS_IP:-0.0.0.0}:53:53/tcp"  # Bind to NAS IP to avoid conflict with localhost dnsmasq
       - "${NAS_IP:-0.0.0.0}:53:53/udp"
+      - "8081:80"  # Web UI (local network access)
     networks:
       traefik-proxy:
         ipv4_address: 192.168.100.5
