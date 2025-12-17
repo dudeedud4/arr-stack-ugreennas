@@ -1,0 +1,31 @@
+# Cloudflare Tunnel Configuration (Locally-Managed)
+#
+# This config file routes all subdomains through Traefik.
+# Copy to config.yml and update with your tunnel ID.
+#
+# Benefits over GUI-managed routes:
+#   - Version controlled
+#   - Wildcard routing (one rule for all subdomains)
+#   - Infrastructure as code
+#
+# Setup:
+#   1. Create tunnel: cloudflared tunnel create nas-tunnel
+#   2. Copy credentials.json to this directory
+#   3. Copy this file to config.yml
+#   4. Update tunnel ID below
+#   5. Add DNS records: cloudflared tunnel route dns nas-tunnel *.yourdomain.com
+
+tunnel: YOUR_TUNNEL_ID
+credentials-file: /etc/cloudflared/credentials.json
+
+ingress:
+  # Wildcard catches all subdomains (jellyfin, sonarr, radarr, etc.)
+  - hostname: "*.yourdomain.com"
+    service: http://traefik:80
+
+  # Root domain
+  - hostname: yourdomain.com
+    service: http://traefik:80
+
+  # Catch-all (required by cloudflared)
+  - service: http_status:404

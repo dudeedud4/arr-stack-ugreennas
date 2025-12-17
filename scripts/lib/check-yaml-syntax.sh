@@ -16,22 +16,20 @@ check_yaml_syntax() {
         return 0
     fi
 
-    # Try python first (most reliable, usually available)
-    if command -v python3 &>/dev/null; then
+    # Check if PyYAML is available
+    local has_pyyaml=false
+    if python3 -c "import yaml" 2>/dev/null; then
+        has_pyyaml=true
+    fi
+
+    # Try python with PyYAML first (most reliable)
+    if $has_pyyaml; then
         for file in $staged_compose; do
             [[ -f "$repo_root/$file" ]] || continue
             if ! python3 -c "import yaml; yaml.safe_load(open('$repo_root/$file'))" 2>/dev/null; then
                 echo "    ERROR: Invalid YAML syntax in $file"
                 # Show the actual error
                 python3 -c "import yaml; yaml.safe_load(open('$repo_root/$file'))" 2>&1 | head -3 | sed 's/^/      /'
-                ((errors++))
-            fi
-        done
-    elif command -v python &>/dev/null; then
-        for file in $staged_compose; do
-            [[ -f "$repo_root/$file" ]] || continue
-            if ! python -c "import yaml; yaml.safe_load(open('$repo_root/$file'))" 2>/dev/null; then
-                echo "    ERROR: Invalid YAML syntax in $file"
                 ((errors++))
             fi
         done

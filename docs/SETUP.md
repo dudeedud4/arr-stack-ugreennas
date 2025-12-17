@@ -170,13 +170,13 @@ Gluetun supports 30+ VPN providers. Configuration varies by provider.
 <summary><strong>Surfshark (WireGuard)</strong></summary>
 
 | Step | Screenshot |
-|------|------------|
-| 1. Go to [my.surfshark.com](https://my.surfshark.com/) → VPN → Manual Setup → Router → WireGuard | <img src="images/Surfshark/1.png" width="500"> |
-| 2. Select **"I don't have a key pair"** | <img src="images/Surfshark/2.png" width="500"> |
-| 3. Under Credentials, enter a name (e.g., `ugreen-nas`) | <img src="images/Surfshark/3.png" width="500"> |
-| 4. Click **"Generate a new key pair"** and copy both keys to your notes | <img src="images/Surfshark/4.png" width="500"> |
-| 5. Click **"Choose location"** and select a server (e.g., United Kingdom) | <img src="images/Surfshark/5.png" width="500"> |
-| 6. Click the **Download** arrow to get the `.conf` file | <img src="images/Surfshark/6.png" width="500"> |
+|:-----|:-----------|
+| 1. Go to [my.surfshark.com](https://my.surfshark.com/) → VPN → Manual Setup → Router → WireGuard | <img src="images/Surfshark/1.png" width="700"> |
+| 2. Select **"I don't have a key pair"** | <img src="images/Surfshark/2.png" width="700"> |
+| 3. Under Credentials, enter a name (e.g., `ugreen-nas`) | <img src="images/Surfshark/3.png" width="700"> |
+| 4. Click **"Generate a new key pair"** and copy both keys to your notes | <img src="images/Surfshark/4.png" width="700"> |
+| 5. Click **"Choose location"** and select a server (e.g., United Kingdom) | <img src="images/Surfshark/5.png" width="700"> |
+| 6. Click the **Download** arrow to get the `.conf` file | <img src="images/Surfshark/6.png" width="700"> |
 
 7. Open the downloaded `.conf` file and note the `Address` value:
    ```ini
@@ -265,13 +265,13 @@ For local-only access, skip this section and use URLs like `http://NAS_IP:8096`.
 Cloudflare Tunnel connects outbound from your server, bypassing port forwarding and ISP restrictions.
 
 | Step | Screenshot |
-|------|------------|
+|:-----|:-----------|
 | 1. Go to [one.dash.cloudflare.com](https://one.dash.cloudflare.com/) → Networks → Overview → **Manage Tunnels** | |
-| 2. Click **Add a tunnel** | <img src="images/Cloudflare tunnel/1.png" width="500"> |
-| 3. Name your tunnel (e.g., `Ugreen NAS`) → **Save** | <img src="images/Cloudflare tunnel/2.png" width="500"> |
-| 4. Choose **Docker** | <img src="images/Cloudflare tunnel/3.png" width="500"> |
-| 5. Copy the command containing your token | <img src="images/Cloudflare tunnel/4.png" width="500"> |
-| 6. Extract the token (the long string after `--token`) | <img src="images/Cloudflare tunnel/5.png" width="500"> |
+| 2. Click **Add a tunnel** | <img src="images/Cloudflare tunnel/1.png" width="700"> |
+| 3. Name your tunnel (e.g., `Ugreen NAS`) → **Save** | <img src="images/Cloudflare tunnel/2.png" width="700"> |
+| 4. Choose **Docker** | <img src="images/Cloudflare tunnel/3.png" width="700"> |
+| 5. Copy the command containing your token | <img src="images/Cloudflare tunnel/4.png" width="700"> |
+| 6. Extract the token (the long string after `--token`) | <img src="images/Cloudflare tunnel/5.png" width="700"> |
 
 7. Add the token to `.env`:
    ```bash
@@ -295,6 +295,35 @@ Cloudflare Tunnel connects outbound from your server, bypassing port forwarding 
    | uptime | HTTP | traefik:80 |
 
 9. **Deploy** (see Step 4)
+
+<details>
+<summary><strong>Alternative: Config File (Locally-Managed Tunnel)</strong></summary>
+
+Instead of configuring routes in the Cloudflare dashboard, you can use a config file with wildcard routing. This is version-controllable and requires only one rule for all subdomains.
+
+1. Create the tunnel and download credentials:
+   ```bash
+   docker run --rm -it -v ./cloudflared:/root/.cloudflared cloudflare/cloudflared tunnel login
+   docker run --rm -it -v ./cloudflared:/root/.cloudflared cloudflare/cloudflared tunnel create nas-tunnel
+   ```
+
+2. Copy the example config and update with your tunnel ID:
+   ```bash
+   cp cloudflared/config.yml.example cloudflared/config.yml
+   # Edit config.yml: replace YOUR_TUNNEL_ID with the ID from step 1
+   # Replace yourdomain.com with your actual domain
+   ```
+
+3. Add DNS route for wildcard:
+   ```bash
+   docker run --rm -v ./cloudflared:/root/.cloudflared cloudflare/cloudflared tunnel route dns nas-tunnel "*.yourdomain.com"
+   ```
+
+4. Update `docker-compose.cloudflared.yml` to use Option B (config file) instead of Option A (token).
+
+5. Deploy as normal.
+
+</details>
 
 ### Option B: Port Forwarding + DNS
 

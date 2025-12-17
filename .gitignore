@@ -11,6 +11,10 @@
 traefik/acme.json
 traefik/*.json
 
+# Cloudflared Credentials (locally-managed tunnel)
+cloudflared/config.yml
+cloudflared/credentials.json
+
 # Application Configs (these should be on NAS, not in repo)
 gluetun-config/
 jellyseerr/
