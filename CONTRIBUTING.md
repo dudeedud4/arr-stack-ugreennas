@@ -1,6 +1,100 @@
 # Contributing
 
-For contributors and forks.
+For contributors, forks, and anyone wanting to understand the project internals.
+
+---
+
+## Project Structure
+
+```
+arr-stack-ugreennas/
+├── docker-compose.traefik.yml      # Traefik reverse proxy
+├── docker-compose.arr-stack.yml    # Main media stack (Jellyfin)
+├── docker-compose.plex-arr-stack.yml  # Plex variant (untested)
+├── docker-compose.cloudflared.yml  # Cloudflare tunnel
+├── traefik/                        # Traefik configuration
+│   ├── traefik.yml                 # Static config
+│   └── dynamic/
+│       ├── tls.yml                 # TLS settings
+│       ├── vpn-services.yml        # Service routing (Jellyfin)
+│       └── vpn-services-plex.yml   # Service routing (Plex variant)
+├── .env.example                    # Environment template
+├── .env                            # Your configuration (gitignored)
+├── docs/                           # Documentation
+│   ├── SETUP.md                    # Complete setup guide
+│   └── LEGAL.md                    # Legal notice
+├── .claude/
+│   ├── instructions.md             # AI assistant instructions
+│   ├── config.local.md.example     # Private config template
+│   └── config.local.md             # Your private config (gitignored)
+├── scripts/                        # Pre-commit hooks
+└── README.md
+```
+
+---
+
+## Architecture
+
+### Network Topology
+
+```
+Internet → Cloudflare Tunnel (or Router Port Forward 80→8080, 443→8443)
+                            │
+                            ▼
+           Traefik (listening on 8080/8443 on NAS)
+                            │
+                            ├─► Jellyfin, Jellyseerr, Bazarr (Direct)
+                            │
+                            └─► Gluetun (VPN Gateway)
+                                    │
+                                    └─► qBittorrent, Sonarr, Radarr, Prowlarr
+                                        (Privacy-protected services)
+```
+
+### Three-File Architecture
+
+This project uses **three separate Docker Compose files**:
+
+| File | Layer | Purpose |
+|------|-------|---------|
+| `docker-compose.traefik.yml` | Infrastructure | Reverse proxy, SSL, networking |
+| `docker-compose.arr-stack.yml` | Application | Media services |
+| `docker-compose.cloudflared.yml` | Tunnel | External access via Cloudflare |
+
+**Why separate files?**
+- Independent lifecycle management
+- One Traefik can serve multiple stacks
+- Easier troubleshooting with isolated logs
+
+**Deployment order**: Traefik first (creates network) → cloudflared → arr-stack.
+
+### Storage Structure
+
+```
+/volume1/
+├── Media/
+│   ├── downloads/    # qBittorrent
+│   ├── tv/           # TV shows
+│   └── movies/       # Movies
+└── docker/
+    └── arr-stack/    # Application configs
+```
+
+---
+
+## Documentation Strategy
+
+This project separates public documentation from private configuration:
+
+| Type | Location | Git Tracked | Contains |
+|------|----------|-------------|----------|
+| **Public docs** | `docs/*.md`, `README.md` | Yes | Generic instructions with placeholders |
+| **Private config** | `.claude/config.local.md` | No | Actual hostnames, IPs, usernames |
+| **Credentials** | `.env` | No | Passwords, API tokens, private keys |
+
+**Setup**: Copy `.claude/config.local.md.example` to `.claude/config.local.md` and fill in your values.
+
+---
 
 ## Pre-commit Hooks
 
