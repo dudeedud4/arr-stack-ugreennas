@@ -143,6 +143,7 @@ arr-stack-ugreennas/          # Git repo (source of truth)
 │   ├── instructions.md             # AI assistant instructions (tracked)
 │   ├── config.local.md.example     # Private config template (tracked)
 │   └── config.local.md             # Your private config (gitignored)
+├── scripts/                        # Pre-commit hooks (see CONTRIBUTING.md)
 └── README.md                       # This file
 ```
 
