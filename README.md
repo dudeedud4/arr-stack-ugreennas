@@ -81,7 +81,7 @@ Ask Claude to help deploy the stack - it reads the [`.claude/instructions.md`](.
 
 | Service | Description | Local Port | Domain URL |
 |---------|-------------|------------|------------|
-| **deunhealth** | Auto-restart services when VPN recovers | - | Internal |
+| **deunhealth** | Auto-restart services if VPN drops and recovers | - | Internal |
 | **Uptime Kuma** | Service monitoring dashboard | 3001 | uptime.yourdomain.com |
 | **duc** | Disk usage analyzer (treemap UI) | 8838 | duc.yourdomain.com |
 
