@@ -356,15 +356,14 @@ docker network create \
   traefik-proxy
 ```
 
-### 4.2 Deploy (Order Matters)
+### 4.2 Deploy (Choose One)
 
-**Local-only deployment:**
+**Either** local-only:
 ```bash
-# Deploy media stack
 docker compose -f docker-compose.arr-stack.yml up -d
 ```
 
-**With external access (Traefik + Cloudflare Tunnel):**
+**Or** with external access (Traefik + Cloudflare Tunnel):
 ```bash
 # 1. Deploy Traefik first (creates network, handles SSL)
 docker compose -f docker-compose.traefik.yml up -d
