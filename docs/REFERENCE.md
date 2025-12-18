@@ -1,24 +1,31 @@
 # Quick Reference: URLs, Commands, Network
 
-## Local Access URLs
+## Services & Network (192.168.100.x)
 
-| Service | URL |
-|---------|-----|
-| Jellyfin | http://HOST_IP:8096 |
-| Jellyseerr | http://HOST_IP:5055 |
-| qBittorrent | http://HOST_IP:8085 |
-| Sonarr | http://HOST_IP:8989 |
-| Radarr | http://HOST_IP:7878 |
-| Prowlarr | http://HOST_IP:9696 |
-| Bazarr | http://HOST_IP:6767 |
-| Pi-hole | http://HOST_IP:8081/admin |
+| Service | IP | Port | Notes |
+|---------|----|----|-------|
+| Traefik | .2 | 80, 443 | Reverse proxy |
+| **Gluetun** | **.3** | — | VPN gateway (qBit/Sonarr/Radarr/Prowlarr run here) |
+| ↳ qBittorrent | via .3 | 8085 | Download client |
+| ↳ Sonarr | via .3 | 8989 | TV shows |
+| ↳ Radarr | via .3 | 7878 | Movies |
+| ↳ Prowlarr | via .3 | 9696 | Indexer manager |
+| Jellyfin | .4 | 8096 | Media server |
+| Pi-hole | .5 | 8081 | DNS ad-blocking (`/admin`) |
+| WireGuard | .6 | 51820/udp | Remote VPN access |
+| Jellyseerr | .8 | 5055 | Request management |
+| Bazarr | .9 | 6767 | Subtitles |
+| FlareSolverr | .10 | 8191 | Cloudflare bypass |
 
-**Optional utilities** (deploy with `docker-compose.utilities.yml`):
+**Optional** (utilities.yml / cloudflared.yml):
 
-| Service | URL |
-|---------|-----|
-| Uptime Kuma | http://HOST_IP:3001 |
-| duc | http://HOST_IP:8838 |
+| Service | IP | Port | Notes |
+|---------|----|----|-------|
+| Cloudflared | .12 | — | Tunnel (no ports exposed) |
+| Uptime Kuma | .13 | 3001 | Monitoring |
+| duc | — | 8838 | Disk usage |
+
+> **Connecting services:** qBittorrent, Sonarr, Radarr, and Prowlarr share Gluetun's network. When configuring download clients, use host `gluetun` or IP `192.168.100.3`.
 
 ## Common Commands
 
@@ -47,27 +54,9 @@ docker compose -f docker-compose.arr-stack.yml up -d
 docker compose -f docker-compose.arr-stack.yml down
 ```
 
-## Network Information
+## Networks
 
 | Network | Subnet | Purpose |
 |---------|--------|---------|
 | traefik-proxy | 192.168.100.0/24 | Service communication |
-| vpn-net | 10.8.1.0/24 | Internal VPN routing |
-
-## IP Allocation (traefik-proxy: 192.168.100.x)
-
-| IP | Service | Notes |
-|----|---------|-------|
-| .1 | Gateway | |
-| .2 | Traefik | |
-| .3 | Gluetun | **Use for qBittorrent in Sonarr/Radarr** |
-| .4 | Jellyfin | |
-| .5 | Pi-hole | |
-| .6 | WireGuard | |
-| .8 | Jellyseerr/Overseerr | |
-| .9 | Bazarr | |
-| .10 | FlareSolverr | |
-| .12 | Cloudflared | Optional |
-| .13 | Uptime Kuma | Optional (utilities.yml) |
-
-> **Tip:** qBittorrent runs inside Gluetun's network, so when configuring download clients in Sonarr/Radarr, use host `gluetun` or IP `192.168.100.3` (not localhost or qbittorrent).
+| vpn-net | 10.8.1.0/24 | Internal VPN routing (WireGuard peers) |
