@@ -25,7 +25,24 @@
 | Uptime Kuma | .13 | 3001 | Monitoring |
 | duc | — | 8838 | Disk usage |
 
-> **Connecting VPN services:** qBittorrent, Sonarr, Radarr, and Prowlarr share Gluetun's network stack. Use `localhost` when connecting them to each other (e.g., Sonarr → qBittorrent: `localhost:8085`). Services outside gluetun (like Jellyseerr) reach them via `192.168.100.3`.
+### Service Connection Guide
+
+**VPN-protected services** (qBittorrent, Sonarr, Radarr, Prowlarr) share Gluetun's network via `network_mode: service:gluetun`. This means:
+
+| From | To | Use | Why |
+|------|-----|-----|-----|
+| Sonarr | qBittorrent | `localhost:8085` | Same network stack |
+| Radarr | qBittorrent | `localhost:8085` | Same network stack |
+| Prowlarr | Sonarr | `localhost:8989` | Same network stack |
+| Prowlarr | Radarr | `localhost:7878` | Same network stack |
+| Prowlarr | FlareSolverr | `flaresolverr:8191` | Docker DNS works |
+| Jellyseerr | Sonarr | `gluetun:8989` | Must go through gluetun |
+| Jellyseerr | Radarr | `gluetun:7878` | Must go through gluetun |
+| Jellyseerr | Jellyfin | `jellyfin:8096` | Both have own IPs |
+| Bazarr | Sonarr | `gluetun:8989` | Must go through gluetun |
+| Bazarr | Radarr | `gluetun:7878` | Must go through gluetun |
+
+> **Why `gluetun` not `sonarr`?** Services sharing gluetun's network don't get their own Docker DNS entries. Jellyseerr/Bazarr must use `gluetun` hostname (or `192.168.100.3`) to reach them.
 
 ## Common Commands
 
