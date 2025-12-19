@@ -1,29 +1,29 @@
 # Quick Reference: URLs, Commands, Network
 
-## Services & Network (192.168.100.x)
+## Services & Network
 
 | Service | IP | Port | Notes |
-|---------|----|----|-------|
-| Traefik | .2 | 80, 443 | Reverse proxy |
-| **Gluetun** | **.3** | — | VPN gateway (qBit/Sonarr/Radarr/Prowlarr run here) |
-| ↳ qBittorrent | via .3 | 8085 | Download client |
-| ↳ Sonarr | via .3 | 8989 | TV shows |
-| ↳ Radarr | via .3 | 7878 | Movies |
-| ↳ Prowlarr | via .3 | 9696 | Indexer manager |
-| Jellyfin | .4 | 8096 | Media server |
-| Pi-hole | .5 | 8081 | DNS ad-blocking (`/admin`) |
-| WireGuard | .6 | 51820/udp | Remote VPN access |
-| Jellyseerr | .8 | 5055 | Request management |
-| Bazarr | .9 | 6767 | Subtitles |
-| FlareSolverr | .10 | 8191 | Cloudflare bypass |
+|---------|-----|------|-------|
+| Traefik | 192.168.100.2 | 80, 443 | Reverse proxy |
+| **Gluetun** | **192.168.100.3** | — | VPN gateway |
+| ↳ qBittorrent | (via Gluetun) | 8085 | Download client |
+| ↳ Sonarr | (via Gluetun) | 8989 | TV shows |
+| ↳ Radarr | (via Gluetun) | 7878 | Movies |
+| ↳ Prowlarr | (via Gluetun) | 9696 | Indexer manager |
+| Jellyfin | 192.168.100.4 | 8096 | Media server |
+| Pi-hole | 192.168.100.5 | 8081 | DNS ad-blocking (`/admin`) |
+| WireGuard | 192.168.100.6 | 51820/udp | Remote VPN access |
+| Jellyseerr | 192.168.100.8 | 5055 | Request management |
+| Bazarr | 192.168.100.9 | 6767 | Subtitles |
+| FlareSolverr | 192.168.100.10 | 8191 | Cloudflare bypass |
 
 **Optional** (utilities.yml / cloudflared.yml):
 
 | Service | IP | Port | Notes |
-|---------|----|----|-------|
-| Cloudflared | .12 | — | Tunnel (no ports exposed) |
-| Uptime Kuma | .13 | 3001 | Monitoring |
-| duc | — | 8838 | Disk usage |
+|---------|-----|------|-------|
+| Cloudflared | 192.168.100.12 | — | Tunnel (no ports exposed) |
+| Uptime Kuma | 192.168.100.13 | 3001 | Monitoring |
+| duc | — | 8838 | Disk usage (no static IP) |
 
 ### Service Connection Guide
 
