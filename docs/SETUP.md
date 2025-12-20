@@ -508,6 +508,16 @@ Skip this if you only want torrents. SABnzbd provides Usenet downloads as an alt
 
    > ⚠️ Categories must exist in SABnzbd **before** adding it as a download client in Sonarr/Radarr, or the connection test will fail.
 
+   <details>
+   <summary>Alternative: Create categories via API</summary>
+
+   ```bash
+   # Run on NAS (replace YOUR_API_KEY with actual key from SABnzbd Config → General)
+   docker exec sabnzbd curl -s 'http://localhost:8080/api?mode=set_config&section=categories&keyword=sonarr&apikey=YOUR_API_KEY'
+   docker exec sabnzbd curl -s 'http://localhost:8080/api?mode=set_config&section=categories&keyword=radarr&apikey=YOUR_API_KEY'
+   ```
+   </details>
+
 5. **Add Usenet indexer to Prowlarr** (next section):
    - NZBGeek ($12/year): https://nzbgeek.info
    - DrunkenSlug (free tier): https://drunkenslug.com
