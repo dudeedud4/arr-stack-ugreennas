@@ -28,7 +28,7 @@
 
 ### Local Access (.lan domains)
 
-Port-free access from any device using Pi-hole DNS:
+Port-free access from any device using Pi-hole DNS + Traefik macvlan:
 
 | URL | Service |
 |-----|---------|
@@ -44,9 +44,10 @@ Port-free access from any device using Pi-hole DNS:
 | `http://pihole.lan/admin` | Pi-hole |
 | `http://wg.lan` | WireGuard |
 | `http://uptime.lan` | Uptime Kuma |
-| `http://duc.lan` | Disk Usage |
 
-> **Setup:** Requires `pihole/02-local-dns.conf` (see Setup guide) and router DHCP pointing to Pi-hole as DNS.
+> **How it works:** Traefik gets its own LAN IP via macvlan (e.g., 10.10.0.11) where it owns port 80. Pi-hole DNS resolves `.lan` → Traefik's IP. See [Setup guide section 5.11](SETUP.md#511-local-dns-lan-domains--optional).
+>
+> **Requires:** macvlan env vars in `.env`, DHCP reservation in router, Pi-hole as network DNS.
 
 ### Service Connection Guide
 
@@ -103,3 +104,4 @@ docker compose -f docker-compose.arr-stack.yml up -d
 |---------|--------|---------|
 | traefik-proxy | 192.168.100.0/24 | Service communication |
 | vpn-net | 10.8.1.0/24 | Internal VPN routing (WireGuard peers) |
+| traefik-lan | (your LAN)/24 | macvlan - gives Traefik its own LAN IP for .lan domains |

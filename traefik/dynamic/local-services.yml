@@ -1,11 +1,13 @@
 # Local .lan domain routing (port-free access)
 #
 # How it works:
-# 1. Pi-hole DNS resolves *.lan → NAS_IP (see pihole/02-local-dns.conf)
-# 2. Browser requests http://sonarr.lan → NAS_IP:8080 (Traefik)
+# 1. Pi-hole DNS resolves *.lan → TRAEFIK_LAN_IP (macvlan, e.g. 10.10.0.11)
+# 2. Browser requests http://sonarr.lan → Traefik on port 80 (macvlan IP)
 # 3. Traefik matches Host header → routes to correct service:port
 #
 # Result: http://sonarr.lan instead of http://10.10.0.10:8989
+#
+# Note: Requires Traefik macvlan setup (see docs/SETUP.md section 5.11)
 
 http:
   routers:
@@ -74,10 +76,12 @@ http:
       entryPoints: [web]
       service: uptime-lan
 
-    duc-lan:
-      rule: "Host(`duc.lan`)"
-      entryPoints: [web]
-      service: duc-lan
+    # duc-lan disabled - duc runs on separate network, use http://NAS_IP:8838 instead
+    # To enable: add duc to traefik-proxy network in docker-compose.utilities.yml
+    # duc-lan:
+    #   rule: "Host(`duc.lan`)"
+    #   entryPoints: [web]
+    #   service: duc-lan
 
   services:
     # === Media Services ===
@@ -140,7 +144,7 @@ http:
         servers:
           - url: "http://192.168.100.13:3001"
 
-    duc-lan:
-      loadBalancer:
-        servers:
-          - url: "http://duc:80"
+    # duc-lan:
+    #   loadBalancer:
+    #     servers:
+    #       - url: "http://duc:80"
