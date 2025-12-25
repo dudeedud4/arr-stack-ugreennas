@@ -7,7 +7,7 @@ Complete setup guide for the media automation stack. Works on any Docker host wi
 - [Prerequisites](#prerequisites)
 - [Stack Overview](#stack-overview)
 - [Step 1: Create Directories and Clone/Fork Repository](#step-1-create-directories-and-clonefork-repository)
-- [Step 2: Configure Environment](#step-2-configure-environment)
+- [Step 2: Configure Settings](#step-2-configure-settings)
 - [Step 3: Start the Stack](#step-3-start-the-stack)
 - [Step 4: Configure Each App](#step-4-configure-each-app)
 - [Step 5: Test](#step-5-test)
@@ -213,7 +213,7 @@ sudo chmod 600 /srv/docker/arr-stack/traefik/acme.json
 
 ---
 
-## Step 2: Configure Environment
+## Step 2: Configure Settings
 
 ### 2.1 Create .env For Your Config
 
