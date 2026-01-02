@@ -2,6 +2,28 @@
 
 This file provides context for Claude Code to assist with this project.
 
+---
+
+## ⚠️ CRITICAL: Read Before Any Docker Commands
+
+**Pi-hole provides DNS for the entire LAN. Stopping it = no internet.**
+
+```bash
+# ❌ NEVER DO THIS - kills DNS, you lose connection before up -d runs
+docker compose -f docker-compose.arr-stack.yml down
+docker compose -f docker-compose.arr-stack.yml up -d
+
+# ✅ ALWAYS USE THIS - atomic restart, Pi-hole back in seconds
+docker compose -f docker-compose.arr-stack.yml up -d --force-recreate
+
+# ✅ OR USE THE WRAPPER SCRIPT
+./scripts/restart-stack.sh
+```
+
+**If you lose internet:** Mobile hotspot → SSH to NAS IP → `docker compose up -d pihole`
+
+---
+
 ## Documentation Strategy
 
 - **Public docs** (tracked): Generic instructions with placeholders (`yourdomain.com`, `YOUR_NAS_IP`)

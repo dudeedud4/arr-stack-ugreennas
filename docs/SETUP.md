@@ -115,20 +115,20 @@ See [Quick Reference](REFERENCE.md) for .lan URLs and network details.
 
 ### `docker-compose.arr-stack.yml`
 
-| Service | Description | Port |
-|---------|-------------|------|
-| **Jellyfin** | Media streaming | 8096 |
-| **Jellyseerr** | Request system | 5055 |
-| **Sonarr** | TV management | 8989 |
-| **Radarr** | Movie management | 7878 |
-| **Prowlarr** | Indexer manager | 9696 |
-| **qBittorrent** | Torrent client | 8085 |
-| **SABnzbd** | Usenet client | 8082 |
-| **Bazarr** | Subtitles | 6767 |
-| **Gluetun** | VPN gateway | - |
-| **Pi-hole** | DNS/ad-blocking | 8081 |
-| **WireGuard** | VPN server for remote access | 51820/udp |
-| **FlareSolverr** | CAPTCHA bypass | 8191 |
+| Service | Description |
+|---------|-------------|
+| **Jellyfin** | Media streaming |
+| **Jellyseerr** | Request system |
+| **Sonarr** | TV management |
+| **Radarr** | Movie management |
+| **Prowlarr** | Indexer manager |
+| **qBittorrent** | Torrent client |
+| **SABnzbd** | Usenet client |
+| **Bazarr** | Subtitles |
+| **Gluetun** | VPN gateway |
+| **Pi-hole** | DNS/ad-blocking |
+| **WireGuard** | VPN server for remote access |
+| **FlareSolverr** | CAPTCHA bypass |
 
 > **Don't need all these?** Remove any service from the compose file. Core dependency: Gluetun.
 
@@ -136,18 +136,18 @@ See [Quick Reference](REFERENCE.md) for .lan URLs and network details.
 
 ### `docker-compose.traefik.yml`
 
-| Service | Description | Port |
-|---------|-------------|------|
-| **Traefik** | Reverse proxy, SSL, .lan domains | 8080, 8443 |
+| Service | Description |
+|---------|-------------|
+| **Traefik** | Reverse proxy, SSL, .lan domains |
 
 ### `docker-compose.utilities.yml`
 
-| Service | Description | Port |
-|---------|-------------|------|
-| **deunhealth** | Auto-restart on VPN reconnect | - |
-| **Uptime Kuma** | Monitoring dashboard | 3001 |
-| **duc** | Disk usage treemap | 8838 |
-| **qbit-scheduler** | Pause torrents overnight | - |
+| Service | Description |
+|---------|-------------|
+| **deunhealth** | Auto-restart on VPN reconnect |
+| **Uptime Kuma** | Monitoring dashboard |
+| **duc** | Disk usage treemap |
+| **qbit-scheduler** | Pause torrents overnight |
 
 ---
 
