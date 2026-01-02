@@ -77,7 +77,7 @@ Before diving in, decide how you'll access your media stack:
 | **Pi-hole** | DNS server - enables `.lan` domains, blocks ads | + local DNS |
 | **Traefik** | Reverse proxy - routes `yourdomain.com` to services, handles HTTPS | + remote access |
 | **Cloudflared** | Tunnel to Cloudflare - secure remote access without port forwarding | + remote access |
-| **WireGuard** | VPN server - access your stack when away from home | + remote access (needs DOMAIN) |
+| **WireGuard** | VPN server - access your stack when away from home | + remote access |
 
 ### What You'll Edit
 
