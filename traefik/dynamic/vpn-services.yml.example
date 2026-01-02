@@ -22,11 +22,27 @@ http:
         - web
       service: jellyseerr
 
+    # Optional: Redirect common typo (jellyseer -> jellyseerr)
+    jellyseer-typo:
+      rule: "Host(`jellyseer.yourdomain.com`)"
+      entryPoints:
+        - web
+      middlewares:
+        - jellyseer-redirect
+      service: jellyseerr
+
     wg:
       rule: "Host(`wg.yourdomain.com`)"
       entryPoints:
         - web
       service: wg
+
+  middlewares:
+    jellyseer-redirect:
+      redirectRegex:
+        regex: "^https?://jellyseer[.](.+)"
+        replacement: "https://jellyseerr.${1}"
+        permanent: true
 
   services:
     jellyfin:
