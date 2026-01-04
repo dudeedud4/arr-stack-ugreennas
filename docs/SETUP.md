@@ -336,7 +336,7 @@ Update `.env` with your provider's required variables.
 
 </details>
 
-> **Don't want Pi-hole?** Change `DNS_ADDRESS=172.20.0.5` to `DNS_ADDRESS=1.1.1.1` in `docker-compose.arr-stack.yml`.
+> **Don't want Pi-hole?** Change `DNS_ADDRESS=172.20.0.5` to your preferred public DNS (e.g., `1.1.1.1`, `8.8.8.8`) in `docker-compose.arr-stack.yml`.
 
 ### 2.4 Create Passwords
 
