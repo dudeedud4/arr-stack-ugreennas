@@ -288,7 +288,7 @@ MEDIA_ROOT=/srv/media         # Linux server
 
 ---
 
-Add your VPN credentials to `.env`. Gluetun supports 30+ providers—find yours below:
+Edit `.env` with your VPN credentials. Gluetun supports 30+ providers—find yours below:
 
 <details>
 <summary><strong>Surfshark (WireGuard)</strong></summary>
